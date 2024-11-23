@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie & TV Show Links</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FMHY Movie & TV Guide</h1>
+            <div class="language-toggle">
+                <button class="active" onclick="switchLanguage('english')">English</button>
+                <button onclick="switchLanguage('tamil')">Tamil or Regional Languages</button>
+            </div>
+        </header>
+
+        <main>
+            <div id="english-content" class="content active">
+                <section class="category">
+                    <h2><i class="fas fa-play-circle"></i> Streaming</h2>
+                    <div class="info-box">
+                        <p>Watch in the given list priority (top to bottom)</p>
+                        <div id="streaming-links" class="streaming-links">
+                            <!-- Streaming links will be dynamically loaded here -->
+                            <div class="loading">Loading starred streaming sites...</div>
+                        </div>
+                        <a href="https://fmhy.pages.dev/videopiracyguide" target="_blank" class="fmhy-link">Check FMHY for More Links</a>
+                    </div>
+                </section>
+
+                <section class="category">
+                    <h2><i class="fas fa-magnet"></i> Torrent</h2>
+                    <div class="subcategory">
+                        <div class="torrent-links">
+                            <a href="https://therarbg.com/" target="_blank" class="streaming-link">
+                                <span class="star">⭐</span>
+                                <div class="site-info">
+                                    <span class="site-name">The RARBG</span>
+                                    <div class="instruction-note">
+                                        <ol>
+                                            <li>Search a movie</li>
+                                            <li>Click on 'S' or 'Se.', present after 'Size'</li>
+                                            <li>The down arrow will be lit after that</li>
+                                            <li>Choose movie</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="fmhy-container">
+                            <div class="fmhy-links">
+                                <a href="https://fmhy.pages.dev/torrentpiracyguide#torrent-sites" target="_blank" class="fmhy-link">FMHY Links 1</a>
+                                <a href="https://fmhy.pages.dev/videopiracyguide#torrent-sites" target="_blank" class="fmhy-link">FMHY Links 2</a>
+                            </div>
+                            <div class="instruction-note torrent-sites">
+                                <p>Use TorrentGalaxy, 1337x, EZTV, YTS, LimeTorrents</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="category">
+                    <h2><i class="fas fa-download"></i> Direct Downloads</h2>
+                    <div class="subcategory" id="english-direct-downloads">
+                        <!-- Direct download links will be dynamically loaded here -->
+                        <div class="loading">Loading direct download sites...</div>
+                    </div>
+                    <a href="https://fmhy.pages.dev/non-english#downloading-3" target="_blank" class="fmhy-link">Check FMHY for More Links</a>
+                </section>
+            </div>
+
+            <div id="tamil-content" class="content">
+                <section class="category">
+                    <h2><i class="fas fa-play-circle"></i> Streaming</h2>
+                    <div class="info-box">
+                        <p>Watch in the given list priority (top to bottom)</p>
+                        <div id="tamil-streaming-links" class="streaming-links">
+                            <!-- Streaming links will be dynamically loaded here -->
+                            <div class="loading">Loading starred streaming sites...</div>
+                        </div>
+                        <a href="https://fmhy.pages.dev/videopiracyguide" target="_blank" class="fmhy-link">Check FMHY for More Links</a>
+                    </div>
+                </section>
+
+                <section class="category">
+                    <h2><i class="fas fa-magnet"></i> Torrent</h2>
+                    <div class="subcategory">
+                        <div class="torrent-links">
+                            <a href="https://1tamilblasters.skin/" target="_blank" class="streaming-link">
+                                <span class="star">⭐</span>
+                                <div class="site-info">
+                                    <span class="site-name">TamilBlasters</span>
+                                    <span class="site-desc">Movies</span>
+                                </div>
+                            </a>
+                            <a href="https://www.1tamilmv.eu/" target="_blank" class="streaming-link">
+                                <span class="star">⭐</span>
+                                <div class="site-info">
+                                    <span class="site-name">1tamilmv</span>
+                                    <span class="site-desc">Movies</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="category">
+                    <h2><i class="fas fa-download"></i> Direct Downloads</h2>
+                    <div class="subcategory" id="tamil-direct-downloads">
+                        <!-- Direct download links will be dynamically loaded here -->
+                        <div class="loading">Loading direct download sites...</div>
+                    </div>
+                    <a href="https://fmhy.pages.dev/non-english#downloading-3" target="_blank" class="fmhy-link">Check FMHY for More Links</a>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
