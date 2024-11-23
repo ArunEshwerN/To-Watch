@@ -80,16 +80,48 @@ async function updateDirectDownloads() {
     }
 }
 
+// Function to update Tamil torrent links
+async function updateTamilTorrents() {
+    const container = document.querySelector('#tamil-content .torrent-links');
+    
+    try {
+        const response = await fetch('http://localhost:5000/api/tamil-torrents');
+        const sites = await response.json();
+        
+        if (sites.length === 0) {
+            container.innerHTML = '<div class="error">No torrent sites found. Please try again later.</div>';
+            return;
+        }
+        
+        const content = sites.map(site => `
+            <a href="${site.url}" target="_blank" class="streaming-link">
+                <span class="star">⭐</span>
+                <div class="site-info">
+                    <span class="site-name">${site.name}</span>
+                    <span class="site-desc">${site.desc}</span>
+                </div>
+            </a>
+        `).join('');
+        
+        container.innerHTML = content;
+    } catch (error) {
+        console.error('Error fetching Tamil torrent sites:', error);
+        container.innerHTML = '<div class="error">Failed to load torrent sites. Please make sure the server is running.</div>';
+    }
+}
+
 // Update streaming links immediately and then every minute
 async function startUpdates() {
     await Promise.all([
         updateStreamingLinks(),
-        updateDirectDownloads()
+        updateDirectDownloads(),
+        updateTamilTorrents()
     ]);
     setInterval(async () => {
         await Promise.all([
             updateStreamingLinks(),
-            updateDirectDownloads()
+            updateDirectDownloads(),
+            updateTamilTorrents()
         ]);
     }, 60000);
 }

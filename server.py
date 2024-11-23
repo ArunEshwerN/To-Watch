@@ -12,6 +12,7 @@ CORS(app)
 # Cache for storing the streaming sites
 cache = {
     'sites': [],
+    'tamil_torrents': [],  
     'last_update': 0
 }
 
@@ -135,10 +136,72 @@ def fetch_olamovies():
         print(f"Error fetching OlaMovies link: {e}")
         return None
 
+def fetch_tamil_torrents():
+    """Fetch Tamil torrent sites from FMHY's non-English section"""
+    try:
+        response = requests.get('https://fmhy.pages.dev/non-english')
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Find the Indian Languages section
+        indian_section = None
+        for heading in soup.find_all(['h2']):
+            if 'Indian Languages' in heading.text:
+                indian_section = heading
+                break
+        
+        if not indian_section:
+            print("Indian Languages section not found")
+            return []
+            
+        # Find the Torrenting subsection within Indian Languages section
+        torrenting_section = None
+        current = indian_section.find_next()
+        while current and current.name != 'h2':  # Stop if we hit another h2
+            if current.name == 'h3' and 'Torrenting' in current.text:
+                torrenting_section = current
+                break
+            current = current.find_next()
+                
+        if not torrenting_section:
+            print("Torrenting section not found")
+            return []
+            
+        # Get the next UL element after the Torrenting heading
+        ul_element = torrenting_section.find_next('ul')
+        if not ul_element:
+            print("No list found after Torrenting section")
+            return []
+        
+        # Find all starred items
+        starred_items = ul_element.find_all('li', class_='starred')
+        
+        sites = []
+        for item in starred_items:
+            link = item.find('a')
+            if not link:
+                continue
+            
+            # Get the description (everything after the dash)
+            desc = item.get_text().split('-')[1].strip() if '-' in item.get_text() else ''
+            
+            sites.append({
+                'name': link.get_text().strip(),
+                'url': link['href'],
+                'desc': desc
+            })
+        
+        print(f"Found {len(sites)} Tamil torrent sites")
+        return sites
+    except Exception as e:
+        print(f"Error fetching Tamil torrent sites: {e}")
+        return []
+
 def update_cache_periodically():
     """Update the cache every minute"""
     while True:
         fetch_streaming_sites()
+        cache['tamil_torrents'] = fetch_tamil_torrents()
+        cache['last_update'] = time.time()
         time.sleep(60)  # Wait for 60 seconds
 
 @app.route('/')
@@ -163,6 +226,11 @@ def get_direct_downloads():
     if not olamovies:
         return jsonify([])
     return jsonify([olamovies])
+
+@app.route('/api/tamil-torrents')
+def get_tamil_torrents():
+    """API endpoint to get Tamil torrent sites"""
+    return jsonify(cache['tamil_torrents'])
 
 if __name__ == '__main__':
     # Start the background thread for updating the cache
