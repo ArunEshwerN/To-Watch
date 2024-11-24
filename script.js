@@ -119,6 +119,147 @@ async function updateTamilTorrents() {
     }
 }
 
+let selectedMovie = null;
+let searchTimeout = null;
+
+// Function to search IMDb
+async function searchIMDb(query) {
+    try {
+        console.log('Searching for:', query);
+        
+        // Using the auto-complete endpoint for better results
+        const response = await fetch(`https://imdb8.p.rapidapi.com/auto-complete?q=${encodeURIComponent(query)}`, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+                'x-rapidapi-key': '620005d0f2msh2a9e2f3d858b8cdp1e5ab9jsn731f66911636'
+            }
+        });
+        
+        const data = await response.json();
+        console.log('Search results:', data);
+        
+        // Filter for movies and TV series
+        const results = (data.d || []).filter(item => 
+            item.qid === 'movie' || item.qid === 'tvSeries' || item.qid === 'tvMiniSeries'
+        );
+        
+        return results;
+    } catch (error) {
+        console.error('Error searching IMDb:', error);
+        return [];
+    }
+}
+
+// Function to display movie suggestions
+function displaySuggestions(movies) {
+    const suggestionsDiv = document.getElementById('movieSuggestions');
+    const whatsappBtn = document.querySelector('.whatsapp-btn');
+    
+    console.log('Displaying suggestions for movies:', movies);
+    
+    if (!movies.length) {
+        suggestionsDiv.classList.remove('active');
+        return;
+    }
+
+    suggestionsDiv.innerHTML = movies.map(movie => `
+        <div class="movie-suggestion" data-id="${movie.id}" data-title="${movie.l}" data-year="${movie.y || ''}" data-type="${movie.qid}">
+            <img class="movie-poster" src="${movie.i ? movie.i.imageUrl : 'placeholder.jpg'}" alt="${movie.l}" onerror="this.src='placeholder.jpg'">
+            <div class="movie-info">
+                <div class="movie-title">${movie.l}</div>
+                <div class="movie-details">
+                    ${movie.y ? `<span class="movie-year">${movie.y}</span>` : ''}
+                    ${movie.qid ? `<span class="movie-type">${movie.qid}</span>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    suggestionsDiv.classList.add('active');
+
+    // Add click listeners to suggestions
+    suggestionsDiv.querySelectorAll('.movie-suggestion').forEach(suggestion => {
+        suggestion.addEventListener('click', () => {
+            selectedMovie = {
+                id: suggestion.dataset.id,
+                title: suggestion.dataset.title,
+                year: suggestion.dataset.year,
+                type: suggestion.dataset.type
+            };
+            document.getElementById('movieInput').value = `${selectedMovie.title} (${selectedMovie.year})`;
+            suggestionsDiv.classList.remove('active');
+            whatsappBtn.disabled = false;
+        });
+    });
+}
+
+// Add input event listener for search
+document.getElementById('movieInput').addEventListener('input', function(e) {
+    const query = e.target.value.trim();
+    const whatsappBtn = document.querySelector('.whatsapp-btn');
+    
+    // Reset selected movie
+    selectedMovie = null;
+    whatsappBtn.disabled = true;
+
+    // Clear previous timeout
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
+
+    if (query.length < 2) {
+        document.getElementById('movieSuggestions').classList.remove('active');
+        return;
+    }
+
+    // Add debounce to prevent too many API calls
+    searchTimeout = setTimeout(async () => {
+        const movies = await searchIMDb(query);
+        displaySuggestions(movies);
+    }, 300);
+});
+
+// Close suggestions when clicking outside
+document.addEventListener('click', function(e) {
+    const suggestionsDiv = document.getElementById('movieSuggestions');
+    const searchContainer = document.querySelector('.search-container');
+    
+    if (!searchContainer.contains(e.target)) {
+        suggestionsDiv.classList.remove('active');
+    }
+});
+
+// Function to send movie request via WhatsApp
+function sendMovieRequest() {
+    if (!selectedMovie) {
+        alert('Please select a movie from the suggestions');
+        return;
+    }
+
+    // Format the message with movie details
+    const message = `Hi, I'm looking for this movie:\n${selectedMovie.title} (${selectedMovie.year})\nIMDb: https://www.imdb.com/title/${selectedMovie.id}`;
+    const phoneNumber = '917708666625';
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Reset form
+    document.getElementById('movieInput').value = '';
+    selectedMovie = null;
+    document.querySelector('.whatsapp-btn').disabled = true;
+}
+
+// Add enter key support for the input field
+document.getElementById('movieInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        sendMovieRequest();
+    }
+});
+
 // Update streaming links immediately and then every minute
 async function startUpdates() {
     await Promise.all([

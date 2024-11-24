@@ -388,3 +388,158 @@ a:hover {
     background-color: #3498db;
     color: white;
 }
+
+/* Movie Request Section */
+.movie-request {
+    margin: 40px 0;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.movie-request h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.request-form {
+    display: flex;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+@media (max-width: 600px) {
+    .request-form {
+        flex-direction: column;
+    }
+}
+
+.request-form input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.request-form input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+}
+
+.whatsapp-btn i {
+    font-size: 20px;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+}
+
+.suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.suggestions-dropdown.active {
+    display: block !important;
+}
+
+.movie-suggestion {
+    padding: 12px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.movie-suggestion:last-child {
+    border-bottom: none;
+}
+
+.movie-suggestion:hover {
+    background-color: #f8f9fa;
+}
+
+.movie-poster {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.movie-info {
+    flex: 1;
+    min-width: 0;  
+}
+
+.movie-type {
+    color: #666;
+    font-size: 0.8em;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 4px;
+}
+
+.movie-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-year {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.movie-details {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.whatsapp-btn:disabled {
+    background-color: #a8e6bc;
+    cursor: not-allowed;
+}

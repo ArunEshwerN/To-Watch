@@ -63,6 +63,20 @@
             </div>
         </section>
 
+        <!-- Movie Request Section -->
+        <section class="movie-request">
+            <h2>Can't find a movie? Ask for a movie</h2>
+            <div class="request-form">
+                <div class="search-container">
+                    <input type="text" id="movieInput" placeholder="Enter movie name..." aria-label="Movie name">
+                    <div id="movieSuggestions" class="suggestions-dropdown"></div>
+                </div>
+                <button onclick="sendMovieRequest()" class="whatsapp-btn" disabled>
+                    <i class="fab fa-whatsapp"></i> Send on WhatsApp
+                </button>
+            </div>
+        </section>
+
         <!-- Language Toggle -->
         <div class="language-toggle">
             <button class="active" onclick="switchLanguage('english')">English</button>
