@@ -1,7 +1,11 @@
 // Get the base API URL based on the environment
-const BASE_API_URL = window.location.hostname === 'localhost' 
+const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_API_URL = isDevelopment 
     ? 'http://localhost:5000'
-    : window.location.origin;  // Use the same origin for production
+    : window.location.origin;
+
+console.log('Running in:', isDevelopment ? 'Development' : 'Production');
+console.log('API URL:', BASE_API_URL);
 
 // Function to switch between languages
 function switchLanguage(lang) {

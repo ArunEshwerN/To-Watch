@@ -9,13 +9,65 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Movie & TV Watch Guide</h1>
-            <div class="language-toggle">
-                <button class="active" onclick="switchLanguage('english')">English</button>
-                <button onclick="switchLanguage('tamil')">Tamil or Regional Languages</button>
+        <h1>Movie & TV Watch Guide</h1>
+        
+        <!-- What to Watch Guide Section -->
+        <section class="what-to-watch">
+            <h2>Don't know what to watch?</h2>
+            <div class="guide-grid">
+                <!-- Movie Discovery -->
+                <div class="guide-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Movie Discovery</h3>
+                    <ul>
+                        <li><a href="https://www.imdb.com/?ref_=nv_home" target="_blank">IMDb</a> - Get movie ideas</li>
+                        <li><a href="https://www.imdb.com/search/title/?title_type=feature" target="_blank">IMDb Advanced Search</a> - Filter exactly what you need</li>
+                        <li><a href="https://www.imdb.com/what-to-watch/?ref_=nv_watch" target="_blank">IMDb Watch Guide</a> - Curated recommendations</li>
+                    </ul>
+                </div>
+
+                <!-- Movie Tracking -->
+                <div class="guide-card">
+                    <i class="fas fa-list-check"></i>
+                    <h3>Track Your Movies</h3>
+                    <p>Use IMDb to:</p>
+                    <ul>
+                        <li>Store watched movies</li>
+                        <li>Track your progress</li>
+                        <li>Create watchlists</li>
+                        <li>Plan future watches</li>
+                    </ul>
+                </div>
+
+                <!-- Similar Movies -->
+                <div class="guide-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Find Similar Movies</h3>
+                    <ul>
+                        <li>Ask ChatGPT for "movies like &lt;your_movie_name&gt;"</li>
+                        <li>Use Google Search for similar movies</li>
+                        <li><a href="https://fmhy.pages.dev/videopiracyguide#recommendations" target="_blank">Check recommendation tools</a></li>
+                    </ul>
+                </div>
+
+                <!-- Additional Resources -->
+                <div class="guide-card">
+                    <i class="fas fa-circle-info"></i>
+                    <h3>More Resources</h3>
+                    <ul>
+                        <li><a href="https://fmhy.pages.dev/videopiracyguide#tracking-discovery" target="_blank">More discovery tools</a></li>
+                        <li><a href="https://fmhy.pages.dev/videopiracyguide#download-subtitles" target="_blank">Find subtitles</a></li>
+                        <li><a href="https://fmhy.pages.dev/videopiracyguide#streaming-sites" target="_blank">FMHY streaming guide</a></li>
+                    </ul>
+                </div>
             </div>
-        </header>
+        </section>
+
+        <!-- Language Toggle -->
+        <div class="language-toggle">
+            <button class="active" onclick="switchLanguage('english')">English</button>
+            <button onclick="switchLanguage('tamil')">Tamil or Regional Languages</button>
+        </div>
 
         <main>
             <div id="english-content" class="content active">
