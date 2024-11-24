@@ -1,3 +1,8 @@
+// Get the base API URL based on the environment
+const BASE_API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000'
+    : 'https://to-watch.onrender.com';
+
 // Function to switch between languages
 function switchLanguage(lang) {
     document.getElementById('english-content').classList.toggle('active', lang === 'english');
@@ -16,7 +21,7 @@ async function updateStreamingLinks() {
     const tamilContainer = document.getElementById('tamil-streaming-links');
     
     try {
-        const response = await fetch('http://localhost:5000/api/streaming-sites');
+        const response = await fetch(`${BASE_API_URL}/api/streaming-sites`);
         const sites = await response.json();
         
         const content = sites.map(site => `
@@ -40,7 +45,7 @@ async function updateStreamingLinks() {
     } catch (error) {
         console.error('Error fetching streaming sites:', error);
         [englishContainer, tamilContainer].forEach(container => {
-            container.innerHTML = '<div class="error">Failed to load streaming sites. Please make sure the server is running.</div>';
+            container.innerHTML = '<div class="error">Failed to load streaming sites. Please try again later.</div>';
         });
     }
 }
@@ -51,7 +56,7 @@ async function updateDirectDownloads() {
     const tamilContainer = document.getElementById('tamil-direct-downloads');
     
     try {
-        const response = await fetch('http://localhost:5000/api/direct-downloads');
+        const response = await fetch(`${BASE_API_URL}/api/direct-downloads`);
         const sites = await response.json();
         
         const content = sites.map(site => `
@@ -75,7 +80,7 @@ async function updateDirectDownloads() {
     } catch (error) {
         console.error('Error fetching direct download sites:', error);
         [englishContainer, tamilContainer].forEach(container => {
-            container.innerHTML = '<div class="error">Failed to load direct download sites. Please make sure the server is running.</div>';
+            container.innerHTML = '<div class="error">Failed to load direct download sites. Please try again later.</div>';
         });
     }
 }
@@ -85,7 +90,7 @@ async function updateTamilTorrents() {
     const container = document.querySelector('#tamil-content .torrent-links');
     
     try {
-        const response = await fetch('http://localhost:5000/api/tamil-torrents');
+        const response = await fetch(`${BASE_API_URL}/api/tamil-torrents`);
         const sites = await response.json();
         
         if (sites.length === 0) {
@@ -106,7 +111,7 @@ async function updateTamilTorrents() {
         container.innerHTML = content;
     } catch (error) {
         console.error('Error fetching Tamil torrent sites:', error);
-        container.innerHTML = '<div class="error">Failed to load torrent sites. Please make sure the server is running.</div>';
+        container.innerHTML = '<div class="error">Failed to load torrent sites. Please try again later.</div>';
     }
 }
 

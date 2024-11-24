@@ -7,7 +7,16 @@ import threading
 import os
 
 app = Flask(__name__)
-CORS(app)
+# Configure CORS to allow requests from render.com and localhost
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "https://to-watch.onrender.com",
+            "http://localhost:5000",
+            "http://127.0.0.1:5000"
+        ]
+    }
+})
 
 # Cache for storing the streaming sites
 cache = {
