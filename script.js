@@ -1,7 +1,7 @@
 // Get the base API URL based on the environment
 const BASE_API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5000'
-    : 'https://to-watch.onrender.com';
+    : window.location.origin;  // Use the same origin for production
 
 // Function to switch between languages
 function switchLanguage(lang) {

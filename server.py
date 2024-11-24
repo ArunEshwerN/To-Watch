@@ -3,8 +3,8 @@ from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
 import time
-import threading
 import os
+from threading import Timer
 
 app = Flask(__name__)
 # Configure CORS to allow requests from any origin since we're using multiple domains
@@ -184,15 +184,16 @@ def fetch_tamil_torrents():
 
 def update_cache_periodically():
     """Update the cache every minute"""
-    while True:
-        try:
-            print("\nUpdating cache...")  # Debug log
-            streaming_sites = fetch_streaming_sites()
-            tamil_torrents = fetch_tamil_torrents()
-            print(f"Cache updated with {len(streaming_sites)} streaming sites and {len(tamil_torrents)} Tamil torrent sites")
-        except Exception as e:
-            print(f"Error in periodic update: {str(e)}")
-        time.sleep(60)
+    try:
+        print("\nUpdating cache...")  # Debug log
+        streaming_sites = fetch_streaming_sites()
+        tamil_torrents = fetch_tamil_torrents()
+        print(f"Cache updated with {len(streaming_sites)} streaming sites and {len(tamil_torrents)} Tamil torrent sites")
+    except Exception as e:
+        print(f"Error in periodic update: {str(e)}")
+    
+    # Schedule next update
+    Timer(60.0, update_cache_periodically).start()
 
 @app.route('/')
 def serve_index():
@@ -204,9 +205,13 @@ def serve_static(filename):
 
 @app.route('/api/streaming-sites')
 def get_streaming_sites():
-    sites = cache.get('sites', [])
-    if not sites:
+    # Update cache if it's older than 1 minute
+    if time.time() - cache.get('last_update', 0) > 60:
         sites = fetch_streaming_sites()
+    else:
+        sites = cache.get('sites', [])
+        if not sites:
+            sites = fetch_streaming_sites()
     return jsonify(sites)
 
 @app.route('/api/direct-downloads')
@@ -218,15 +223,17 @@ def get_direct_downloads():
 
 @app.route('/api/tamil-torrents')
 def get_tamil_torrents():
-    sites = cache.get('tamil_torrents', [])
-    if not sites:
+    # Update cache if it's older than 1 minute
+    if time.time() - cache.get('last_update', 0) > 60:
         sites = fetch_tamil_torrents()
+    else:
+        sites = cache.get('tamil_torrents', [])
+        if not sites:
+            sites = fetch_tamil_torrents()
     return jsonify(sites)
 
+# Start the initial cache update
+Timer(1.0, update_cache_periodically).start()
+
 if __name__ == '__main__':
-    # Start the background thread for updating the cache
-    update_thread = threading.Thread(target=update_cache_periodically, daemon=True)
-    update_thread.start()
-    
-    # Start the Flask server
     app.run(port=5000, debug=True)
