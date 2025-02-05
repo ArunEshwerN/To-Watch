@@ -543,3 +543,25 @@ a:hover {
     background-color: #a8e6bc;
     cursor: not-allowed;
 }
+
+.primary-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    border: 2px solid #25D366;
+}
+
+.primary-section h2 {
+    color: #075E54;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.secondary-content {
+    opacity: 0.85;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
